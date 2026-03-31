@@ -44,23 +44,17 @@ def delete_expense(request, pk):
 
 @login_required
 def dashboard(request):
-    # Get all expenses for the logged-in user
+  
     expenses = Expense.objects.filter(user=request.user)
-
-    # Total expenses
     total_expense = expenses.aggregate(total=Sum('amount'))['total'] or 0
 
-    # Monthly expenses (current month)
     current_month = datetime.now().month
     monthly_expense = expenses.filter(date__month=current_month).aggregate(total=Sum('amount'))['total'] or 0
-
-    # Total number of expense records
+   
     total_records = expenses.count()
 
-    # Recent 5 expenses
     recent_expenses = expenses.order_by('-date')[:5]
-
-    # Prepare chart data: group by month
+ 
     monthly_labels = []
     monthly_data = []
     monthly_summary = {}
