@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            background:rgb(179, 209, 221);
+            min-height: 100vh;
+        }
+        .card {
+            border-radius: 15px;
+        }
+        .card h5 {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+{{ monthly_labels|json_script:"monthly-labels" }}
+{{ monthly_data|json_script:"monthly-data" }}
+
+<div class="container py-5">
+
+    <h2 class="text-white mb-4">📊 Expense Dashboard</h2>
+
+    <div class="row g-4 mb-4">
+
+        <!-- Total Expenses Card -->
+        <div class="col-md-4">
+            <div class="card shadow p-3 text-center">
+                <h5>Total Expenses</h5>
+                <h3>₹{{ total_expense }}</h3>
+            </div>
+        </div>
+
+        <!-- Monthly Expenses Card -->
+        <div class="col-md-4">
+            <div class="card shadow p-3 text-center">
+                <h5>Monthly Expenses</h5>
+                <h3>₹{{ monthly_expense }}</h3>
+            </div>
+        </div>
+
+        <!-- Number of Records Card -->
+        <div class="col-md-4">
+            <div class="card shadow p-3 text-center">
+                <h5>Total Records</h5>
+                <h3>{{ total_records }}</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Monthly Expenses Chart -->
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card shadow p-3">
+                <h5 class="mb-3">Monthly Expenses</h5>
+                <canvas id="monthlyChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Expenses Table -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow p-3">
+                <h5 class="mb-3">Recent Expenses</h5>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Title</th>
+                                <th>Amount (₹)</th>
+                                <th>Date</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for expense in recent_expenses %}
+                                <tr>
+                                    <td>{{ expense.title }}</td>
+                                    <td>{{ expense.amount }}</td>
+                                    <td>{{ expense.date }}</td>
+                                    <td>{{ expense.description|default:"-" }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Chart.js Scripts -->
+<script>
+    // Parse JSON safely
+    const monthlyLabels = JSON.parse(document.getElementById('monthly-labels').textContent);
+    const monthlyData = JSON.parse(document.getElementById('monthly-data').textContent);
+
+    // Monthly Expenses Chart
+    const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+    const monthlyChart = new Chart(monthlyCtx, {
+        type: 'bar',
+        data: {
+            labels: monthlyLabels,
+            datasets: [{
+                label: 'Expenses (₹)',
+                data: monthlyData,
+                backgroundColor: 'rgba(102, 126, 234, 0.7)',
+                borderColor: 'rgba(102, 126, 234, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: { responsive: true }
+    });
+</script>
+</body>
+</html>
