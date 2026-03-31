@@ -9,7 +9,7 @@
 
     <style>
         body {
-            background:darkgray;
+            background: darkgray;
             height: 100vh;
         }
         .card {
@@ -37,12 +37,12 @@
 
             <div class="mb-3">
                 <label class="form-label">Username</label>
-                {{ form.username }}
+                <input type="text" name="username" class="form-control" required>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Password</label>
-                {{ form.password }}
+                <input type="password" name="password" class="form-control" required>
             </div>
 
             <button type="submit" class="btn btn-success w-100">Login</button>
@@ -56,7 +56,7 @@
         </p>
 
         <p class="text-center">
-            <a href="{% url 'password_reset' %}">Forgot password?</a>
+            <a href="/accounts/password_reset/">Forgot password?</a>
         </p>
 
     </div>
