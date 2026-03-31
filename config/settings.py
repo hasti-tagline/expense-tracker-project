@@ -26,8 +26,8 @@ SECRET_KEY = 'django-insecure-h*gs=fi6wj6x!zjht=z3ne8w^v_i$qtg*g$3ou8kc38i_1$hxs
 DEBUG = True
 
 ALLOWED_HOSTS = []
-LOGIN_REDIRECT_URL = 'expense_list'   # after login
-LOGOUT_REDIRECT_URL = 'login'         # after logout
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'login'       # after logout
 
 # Application definition
 
