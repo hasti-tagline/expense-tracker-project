@@ -54,10 +54,10 @@ def profile(request):
             form.save()
             messages.success(request, "Profile updated successfully!")
 
-            return redirect('profile')   # ✅ VERY IMPORTANT
+            return redirect('profile') 
 
         else:
-            print(form.errors)  # 🔍 DEBUG
+            print(form.errors) 
 
     else:
         form = ProfileForm(instance=profile)
